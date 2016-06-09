@@ -1,8 +1,4 @@
 ---
 - name: Install Debian dependencies
   apt: name={{ item }} state=present update_cache=yes
-<<<<<<< HEAD
-  with_items: {{tomcat.deb.dependencies}}
-=======
   with_items: tomcat.deb.dependencies
->>>>>>> branch 'SetUp' of https://github.com/njoit/ansible-tomcat8.git
