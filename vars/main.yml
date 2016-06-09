@@ -5,8 +5,6 @@ tomcat:
   deb:
 #    repo: 'deb <url>' # repository
     dependencies: # Tomcat dependencies
-      - 'default-jre'
-      - 'default-jdk'
       - 'openjdk-7-jre'
       - 'openjdk-7-jdk'
       - 'git'
