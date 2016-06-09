@@ -2,4 +2,4 @@
 
 - name: Install RedHat dependencies
   yum: name={{ item }} state=installed
-  with_items: {{tomcat.redhat.dependencies}}
+  with_items: tomcat.redhat.dependencies
