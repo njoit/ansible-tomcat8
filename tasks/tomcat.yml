@@ -1,0 +1,10 @@
+---
+
+- include: repo.yml
+
+- include: dependencies_deb.yml
+  when: ansible_os_family == "Debian"
+
+- include: dependencies_redhat.yml
+  when: ansible_os_family == "RedHat"
+
