@@ -1,0 +1,30 @@
+---
+- name: add group "tomcat"
+  group: name=tomcat
+
+- name: add user "tomcat"
+  user: name=tomcat shell=/bin/false group=tomcat home=/opt/tomcat createhome=yes
+  sudo: True
+
+- name: Download Tomcat
+  get_url: url=http://ftp.tudelft.nl/apache/tomcat/tomcat-8/v8.0.35/bin/apache-tomcat-8.0.35.tar.gz dest=/opt/apache-tomcat-8.0.35.tar.gz mode=a+x
+
+- name: Permission for archive
+  file: path=/opt/apache-tomcat-8.0.35.tar.gz owner=vagrant group=vagrant
+
+# TODO: nog toevoegen als extra optie: extra-opts={strip-components=1}
+- name: Extract archive 
+  unarchive: src=/opt/apache-tomcat-8.0.35.tar.gz dest=/opt/tomcat copy=no
+
+- name: Set group for tomcat conf dir
+  file: path=/opt/tomcat/conf state=directory recurse=yes group=tomcat
+
+- name: Permission for tomcat user write access to conf dir
+  file: path=/opt/tomcat/conf state=directory mode=g+rwx
+  
+- name: Change ownership of Tomcat installation
+  file: path=/opt/tomcat/{{ item.src }} owner=tomcat group=tomcat state=directory recurse=yes
+  with_items:
+    - { src: 'work' }
+    - { src: 'temp' }
+    - { src: 'logs' }
