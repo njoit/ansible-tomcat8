@@ -1,6 +1,6 @@
 ---
-tomcat_dest: /opt/jenkins
-tomcat_lib: /var/lib/jenkins
+tomcat_dest: /opt/tomcat
+tomcat_lib: '{{ tomcat_dest }}/lib'
 tomcat:
   deb:
 #    repo: 'deb <url>' # repository
@@ -16,4 +16,7 @@ tomcat:
       - 'java'
       - 'git'
       - 'curl'
-
+java_home: /usr/lib/jvm/java-7-openjdk-amd64/jre
+catalina_home: {{ tomcat_dest }}
+tomcat_ubuntu_java_opts: -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
+tomcat_ubuntu_catalina_opts: -Xms512M -Xmx1024M -server -XX:+UseParallelGC
