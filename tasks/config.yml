@@ -19,4 +19,4 @@
 - name: Permission for tomcat user write access to conf files
   shell: sudo chmod g+r conf/*
   args:
-    chdir: {{ tomcat_dest }}
+    chdir: '{{ tomcat_dest }}'
