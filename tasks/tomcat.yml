@@ -13,3 +13,8 @@
 
 - include: install_redhat.yml
   when: ansible_os_family == "RedHat"
+
+- include: service_deb.yml
+  when: ansible_os_family == "Debian"
+  notify:
+    - restart tomcat
