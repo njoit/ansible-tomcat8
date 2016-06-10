@@ -1,12 +1,13 @@
 ---
 
-- name: Install Tomcat Upstart script
+- name: Install Tomcat as a service
   template:
-    src: tomcat.conf.j2
-    dest: /etc/init/tomcat.conf
+    src: tomcat.j2
+    dest: /etc/init.d/tomcat8
     owner: root
     group: root
     mode: 0755
-  notify: 
-    - reload tomcat config
+  notify:
+    - restart tomcat  
+
   
