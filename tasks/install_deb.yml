@@ -12,9 +12,10 @@
 - name: Permission for archive
   file: path=/opt/apache-tomcat-8.0.35.tar.gz owner=vagrant group=vagrant
 
-# TODO: nog toevoegen als extra optie: extra-opts={strip-components=1}
 - name: Extract archive 
-  unarchive: src=/opt/apache-tomcat-8.0.35.tar.gz dest=/opt/tomcat copy=no
+  shell: sudo tar xvf apache-tomcat-8.0.35.tar.gz -C /opt/tomcat --strip-components=1
+  args:
+    chdir: /opt
 
 - name: Set group for tomcat conf dir
   file: path=/opt/tomcat/conf state=directory recurse=yes group=tomcat
