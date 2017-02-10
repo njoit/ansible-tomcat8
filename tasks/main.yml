@@ -1,2 +1,2 @@
 ---
-- include: tomcat.yml
+- include: tomcat.yml tags=tomcat
