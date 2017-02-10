@@ -1,0 +1,22 @@
+---
+
+- name: Configure Tomcat's server.xml
+  sudo: yes
+  template:
+    src: server.xml.j2
+    dest: '{{ tomcat_dest }}/conf/server.xml'
+  notify:
+    - restart tomcat
+
+- name: Configure Tomcat's tomcat-users.xml
+  sudo: yes
+  template:
+    src: tomcat-users.xml.j2
+    dest: '{{ tomcat_dest }}/conf/tomcat-users.xml'
+  notify:
+    - restart tomcat
+
+- name: Permission for tomcat user write access to conf files
+  shell: sudo chmod g+r conf/*
+  args:
+    chdir: '{{ tomcat_dest }}'

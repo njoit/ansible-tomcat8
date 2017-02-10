@@ -1,0 +1,13 @@
+---
+
+- name: Install Tomcat as a service
+  template:
+    src: tomcat.j2
+    dest: /etc/init.d/tomcat8
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - restart tomcat  
+
+  

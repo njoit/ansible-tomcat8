@@ -1,0 +1,27 @@
+---
+tomcat_dest: /opt/tomcat
+tomcat_lib: "{{ tomcat_dest }}/lib"
+tomcat:
+  deb:
+#    repo: 'deb <url>' # repository
+    dependencies: # Tomcat dependencies
+      - 'default-jre'
+      - 'default-jdk'
+      - 'openjdk-7-jre'
+      - 'openjdk-7-jdk'
+      - 'git'
+      - 'curl'
+  redhat:
+    dependencies:
+      - 'java'
+      - 'git'
+      - 'curl'
+java_home: /usr/lib/jvm/java-7-openjdk-amd64
+jdk_dirs: /usr/lib/jvm/java-7-openjdk-amd64 /usr/lib/jvm/java-7-openjdk-common
+catalina_home: "{{ tomcat_dest }}"
+java_opts: -Djava.awt.headless=true -Xmx1024M
+catalina_opts: -Xms512M -Xmx1024M -server -XX:+UseParallelGC
+tomcat_users: #[]
+  - name: admin
+    password: password
+    roles: manager-gui,admin-gui
