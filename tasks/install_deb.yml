@@ -20,8 +20,8 @@
 - name: Set group for tomcat conf dir
   file: path=/opt/tomcat/conf state=directory recurse=yes group=tomcat
 
-- name: Permission for tomcat user write access to conf dir
-  file: path=/opt/tomcat/conf state=directory mode=g+rwx
+- name: Permission for dirs
+  file: path=/opt/tomcat state=directory recurse=yes mode=+rx
   
 - name: Change ownership of Tomcat installation
   file: path=/opt/tomcat/{{ item.src }} owner=tomcat group=tomcat state=directory recurse=yes
