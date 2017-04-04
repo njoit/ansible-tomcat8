@@ -23,3 +23,19 @@
     dest: '{{ tomcat_dest }}/conf/Catalina/localhost/manager.xml'
   notify:
     - restart tomcat
+
+- name: Configure access to manager app from remote
+  become: true
+  template:
+    src: manager.xml.j2
+    dest: '{{ tomcat_dest }}/conf/Catalina/localhost/manager.xml'
+  notify:
+    - restart tomcat
+
+- name: Set java opts
+  become: true
+  template:
+    src: setenv.sh.j2
+    dest: '{{ tomcat_dest }}/bin/setenv.sh'
+  notify:
+    - restart tomcat
