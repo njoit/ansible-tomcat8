@@ -17,7 +17,7 @@ tomcat:
       - 'java'
       - 'git'
       - 'curl'
-java_home: /usr/lib/jvm/java-7-openjdk-amd64
+java_home: /usr/lib/jvm/java-8-oracle
 jdk_dirs: /usr/lib/jvm/java-7-openjdk-amd64/jre # /usr/lib/jvm/java-7-openjdk-common
 catalina_home: "{{ tomcat_dest }}"
 java_opts: -Djava.awt.headless=true -Xmx1024M
