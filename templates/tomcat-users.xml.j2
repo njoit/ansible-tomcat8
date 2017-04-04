@@ -34,10 +34,14 @@
   examples web application, do not forget to remove the <!.. ..> that surrounds
   them. You will also need to set the passwords to something appropriate.
 -->
+<role rolename="manager-gui"/>
+<role rolename="manager"/>
+<role rolename="admin"/>
 
 {% for user in tomcat_users %}
   <user username="{{ user.name }}" password="{{ user.password }}" roles="{{ user.roles }}"/>
 {% endfor %}
+
 </tomcat-users>
 
 <!-- {{ ansible_managed }} -->

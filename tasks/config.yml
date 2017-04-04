@@ -1,7 +1,7 @@
 ---
 
 - name: Configure Tomcat's server.xml
-  sudo: yes
+  become: true
   template:
     src: server.xml.j2
     dest: '{{ tomcat_dest }}/conf/server.xml'
@@ -9,14 +9,17 @@
     - restart tomcat
 
 - name: Configure Tomcat's tomcat-users.xml
-  sudo: yes
+  become: true
   template:
     src: tomcat-users.xml.j2
     dest: '{{ tomcat_dest }}/conf/tomcat-users.xml'
   notify:
     - restart tomcat
 
-- name: Permission for tomcat user write access to conf files
-  shell: sudo chmod g+r conf/*
-  args:
-    chdir: '{{ tomcat_dest }}'
+- name: Configure access to manager app from remote
+  become: true
+  template:
+    src: manager.xml.j2
+    dest: '{{ tomcat_dest }}/conf/Catalina/localhost/manager.xml'
+  notify:
+    - restart tomcat
