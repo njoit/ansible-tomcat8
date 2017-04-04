@@ -4,28 +4,45 @@
 
 - name: add user "tomcat"
   user: name=tomcat shell=/bin/false group=tomcat home=/opt/tomcat createhome=yes
-  sudo: True
+  become: true
 
 - name: Download Tomcat
-  get_url: url=http://apache.hippo.nl/tomcat/tomcat-8/v8.5.11/bin/apache-tomcat-8.5.11.tar.gz dest=/opt/apache-tomcat-8.0.35.tar.gz mode=a+x
+  get_url: url=http://ftp.nluug.nl/internet/apache/tomcat/tomcat-8/v8.5.12/bin/apache-tomcat-8.5.12.tar.gz dest=/opt/apache-tomcat-8.5.12.tar.gz mode=a+x
 
 - name: Permission for archive
-  file: path=/opt/apache-tomcat-8.0.35.tar.gz owner={{ user }} group={{ user }}
+  file: path=/opt/apache-tomcat-8.5.12.tar.gz owner={{ user }} group={{ user }}
 
 - name: Extract archive 
-  shell: sudo tar xvf apache-tomcat-8.0.35.tar.gz -C /opt/tomcat --strip-components=1
+  shell: sudo tar xvf apache-tomcat-8.5.12.tar.gz -C /opt/tomcat --strip-components=1
   args:
     chdir: /opt
 
-- name: Set group for tomcat conf dir
-  file: path=/opt/tomcat/conf state=directory recurse=yes group=tomcat
-
 - name: Permission for dirs
-  file: path=/opt/tomcat state=directory recurse=yes mode=+rx
+  file: path={{ tomcat_dest }} state=directory recurse=yes mode="a+rx"
+  
+- name: Permission for tomcat user write access to conf files
+  file: path={{ tomcat_dest }}/conf state=directory recurse=yes group=tomcat mode="g+rwx"
   
 - name: Change ownership of Tomcat installation
-  file: path=/opt/tomcat/{{ item.src }} owner=tomcat group=tomcat state=directory recurse=yes
+  file: path={{ tomcat_dest }}/{{ item.src }} owner=tomcat state=directory recurse=yes
   with_items:
     - { src: 'work' }
     - { src: 'temp' }
     - { src: 'logs' }
+
+- name: Permission for webapps folder
+  file: path={{ tomcat_dest }}/webapps state=directory recurse=yes mode=777 
+  
+- name: Change ownership of tomcat manager
+  file: path={{ tomcat_dest }}/webapps/manager state=directory recurse=yes group=tomcat owner=root
+  
+- name: create conf dir catalina localhost
+  file: path={{ tomcat_dest }}/conf/Catalina/localhost state=directory
+  
+- name: create symbolic link for jsvc
+  file:
+    src: "{{ tomcat_dest}}/bin/jsvc"
+    dest: /usr/bin/jsvc
+    state: link
+  
+
